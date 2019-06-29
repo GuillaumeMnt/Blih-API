@@ -1,0 +1,15 @@
+version: '3'
+services:
+  transpiler:
+    build: .
+    volumes:
+    - .:/usr/app
+    command: npm run build-watch
+  api:
+    build: .
+    volumes:
+      - ./dist:/usr/app/
+      - ./node_modules:/usr/app/node_modules
+    ports:
+      - "8035:8035"
+    command: nodemon /usr/app/Server.js -w /usr/app -d 2
