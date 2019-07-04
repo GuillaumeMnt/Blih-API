@@ -2,6 +2,8 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser';
 import * as http from 'http';
 
+import { router } from './server/routes'
+
 class Server {
   private app: express.Application;
   private http: any;
@@ -9,12 +11,8 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.router = express.Router();
+    this.router = router;
   }
-
-  // constructor() {
-  //   this.express = express();
-  // }
 
   public start(): void {
     
@@ -27,11 +25,7 @@ class Server {
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(bodyParser.json());
 
-    // require('./routes_public/')(this.router);
-    // require('./src/routes_private')(router, require('./src/middleware/tokenValidator'));
-
     this.app.use(this.router);
-
 
     this.http = http.createServer(this.app);
     this.http.listen(8035, () => {
